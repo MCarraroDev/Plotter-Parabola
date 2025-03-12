@@ -50,13 +50,21 @@ $(document).ready(function() {
           title: 'x',
           gridcolor: '#374151',
           zerolinecolor: '#4b5563',
-          tickfont: { color: '#e5e7eb' }
+          tickfont: { color: '#e5e7eb' },
+          scaleanchor: 'y',
+          scaleratio: 1,
+        //   constrain: 'domain',
+          fixedrange: false
         },
         yaxis: { 
           title: 'y',
           gridcolor: '#374151',
           zerolinecolor: '#4b5563',
-          tickfont: { color: '#e5e7eb' }
+          tickfont: { color: '#e5e7eb' },
+          scaleanchor: 'x',
+          scaleratio: 1,
+          constrain: 'domain',
+          fixedrange: false
         }
       };
       
@@ -77,19 +85,67 @@ $(document).ready(function() {
         xIntercepts.push(-b / (2 * a));
       }
       
-      // Punti "comodi": genera punti con valori interi o con .5 intorno al vertice
+      // Genera punti "comodi" per la parabola
       let convenientPoints = [];
-      const startConvenient = Math.floor(xv) - 5;
-      const endConvenient = Math.floor(xv) + 5;
-      for(let i = startConvenient; i <= endConvenient; i++) {
-        [i, i + 0.5].forEach(x => {
-          if (!convenientPoints.find(pt => pt.x === x)) {
-            convenientPoints.push({ x: x, y: a * x * x + b * x + c });
-          }
-        });
-      }
-      convenientPoints.sort((p1, p2) => p1.x - p2.x);
       
+      // Funzione per calcolare y dato x
+      const calcY = x => a * x * x + b * x + c;
+      
+      // Funzione per aggiungere un punto se non esiste già
+      const addPoint = x => {
+        const roundedX = Math.round(x * 100) / 100;
+        if (!convenientPoints.find(pt => pt.x === roundedX)) {
+          convenientPoints.push({ x: roundedX, y: calcY(roundedX) });
+        }
+      };
+
+      // 1. Vertice (già calcolato)
+      addPoint(xv);
+
+      // 2. Intersezioni con gli assi (y=0 e x=0)
+      xIntercepts.forEach(x => addPoint(x));
+      addPoint(0); // intersezione asse y
+
+      // 3. Punti di simmetria attorno al vertice
+      [-2, -1, 1, 2].forEach(factor => {
+        addPoint(xv + factor);
+      });
+
+      // 4. Punti dove la parabola interseca valori interi di y
+      // Troviamo alcuni valori di y sopra e sotto il vertice
+      const yIntersections = [];
+      for (let i = Math.floor(yv) - 2; i <= Math.ceil(yv) + 2; i++) {
+        if (i !== yv) { // evitiamo il vertice che abbiamo già
+          yIntersections.push(i);
+        }
+      }
+
+      // Per ogni y, troviamo i corrispondenti x risolvendo: ax² + bx + (c-y) = 0
+      yIntersections.forEach(y => {
+        const k = c - y;
+        const disc = b * b - 4 * a * k;
+        if (disc >= 0) {
+          const x1 = (-b + Math.sqrt(disc)) / (2 * a);
+          const x2 = (-b - Math.sqrt(disc)) / (2 * a);
+          addPoint(x1);
+          if (disc > 0) addPoint(x2);
+        }
+      });
+
+      // 5. Alcuni punti equidistanti dal vertice
+      [-1.5, -0.5, 0.5, 1.5].forEach(factor => {
+        addPoint(xv + factor);
+      });
+
+      // Ordina i punti per x crescente
+      convenientPoints.sort((p1, p2) => p1.x - p2.x);
+
+      // Rimuovi punti troppo vicini tra loro (distanza minima 0.1)
+      convenientPoints = convenientPoints.filter((point, index, array) => {
+        if (index === 0) return true;
+        return Math.abs(point.x - array[index - 1].x) >= 0.1;
+      });
+
       // Mostra le informazioni nella tabella
       const $tableBody = $('#info-table tbody');
       $tableBody.empty();
@@ -131,4 +187,3 @@ $(document).ready(function() {
         .appendTo($tableBody);
     });
   });
-  
