@@ -1,13 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('parabola-form');
-    
-    form.addEventListener('submit', function(e) {
+$(document).ready(function() {
+    $('#parabola-form').on('submit', function(e) {
       e.preventDefault();
       
       // Ottieni i valori dei coefficienti
-      const a = eval(document.getElementById('a').value);
-      const b = eval(document.getElementById('b').value);
-      const c = eval(document.getElementById('c').value);
+      const a = eval($('#a').val());
+      const b = eval($('#b').val());
+      const c = eval($('#c').val());
       
       if (a === 0) {
         alert("Il coefficiente 'a' non può essere 0 in una parabola.");
@@ -70,12 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Calcola le intersezioni con l'asse x (soluzione dell'equazione quadratica)
       let xIntercepts = [];
-      const discriminant = b * b - 4 * a * c;
-      if (discriminant > 0) {
-        const root1 = (-b + Math.sqrt(discriminant)) / (2 * a);
-        const root2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+      const discriminante = b * b - 4 * a * c;
+      if (discriminante > 0) {
+        const root1 = (-b + Math.sqrt(discriminante)) / (2 * a);
+        const root2 = (-b - Math.sqrt(discriminante)) / (2 * a);
         xIntercepts.push(root1, root2);
-      } else if (discriminant === 0) {
+      } else if (discriminante === 0) {
         xIntercepts.push(-b / (2 * a));
       }
       
@@ -93,18 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
       convenientPoints.sort((p1, p2) => p1.x - p2.x);
       
       // Mostra le informazioni nella tabella
-      const tableBody = document.querySelector('#info-table tbody');
-      tableBody.innerHTML = '';
+      const $tableBody = $('#info-table tbody');
+      $tableBody.empty();
       
       function addRow(name, value) {
-        const row = document.createElement('tr');
-        const nameCell = document.createElement('td');
-        nameCell.textContent = name;
-        const valueCell = document.createElement('td');
-        valueCell.textContent = value;
-        row.appendChild(nameCell);
-        row.appendChild(valueCell);
-        tableBody.appendChild(row);
+        $('<tr>')
+          .append($('<td>').text(name))
+          .append($('<td>').text(value))
+          .appendTo($tableBody);
       }
       
       addRow('Vertice (x)', vertex.x.toFixed(2));
@@ -120,22 +114,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // Mostra i "punti comodi" in una riga separata
-      const convDiv = document.createElement('div');
-      convDiv.classList.add('convenient-points');
-      
-      // Visualizza i primi 5 e gli ultimi 5 punti per evitare troppi dati
       const firstPoints = convenientPoints.slice(0, 5);
       const lastPoints = convenientPoints.slice(-5);
       
-      convDiv.innerHTML = `<strong>Primi 5 punti:</strong><br>${firstPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - ')}<br>
-                           <strong>Ultimi 5 punti:</strong><br>${lastPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - ')}`;
+      const $convDiv = $('<div>', { class: 'convenient-points' })
+        .append($('<strong>').text('Primi 5 punti:'))
+        .append('<br>')
+        .append(firstPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - '))
+        .append('<br>')
+        .append($('<strong>').text('Ultimi 5 punti:'))
+        .append('<br>')
+        .append(lastPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - '));
       
-      const row = document.createElement('tr');
-      const cell = document.createElement('td');
-      cell.colSpan = 2;
-      cell.appendChild(convDiv);
-      row.appendChild(cell);
-      tableBody.appendChild(row);
+      $('<tr>')
+        .append($('<td>', { colspan: 2 }).append($convDiv))
+        .appendTo($tableBody);
     });
   });
   
