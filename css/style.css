@@ -1,17 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #1f2937;
     margin: 0;
     padding: 0;
+    color: #e5e7eb;
   }
   
   .container {
     width: 90%;
     max-width: 800px;
     margin: 20px auto;
-    background: #fff;
+    background: #111827;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
   }
   
   form {
@@ -27,19 +29,25 @@ body {
   
   form input {
     flex: 1 0 100px;
-    padding: 5px;
+    padding: 8px;
+    background: #374151;
+    border: 1px solid #4b5563;
+    color: #e5e7eb;
+    border-radius: 4px;
   }
   
   form button {
     padding: 10px 20px;
-    background: #007bff;
+    background: #3b82f6;
     color: #fff;
     border: none;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
   }
   
   form button:hover {
-    background: #0056b3;
+    background: #2563eb;
   }
   
   #plot {
@@ -54,13 +62,14 @@ body {
   }
   
   #info-table th, #info-table td {
-    border: 1px solid #ccc;
+    border: 1px solid #374151;
     padding: 8px;
     text-align: center;
   }
   
   #info-table th {
-    background-color: #f0f0f0;
+    background-color: #374151;
+    color: #e5e7eb;
   }
   
   .convenient-points p {

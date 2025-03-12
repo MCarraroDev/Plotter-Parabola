@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       
       // Ottieni i valori dei coefficienti
-      const a = parseFloat(document.getElementById('a').value);
-      const b = parseFloat(document.getElementById('b').value);
-      const c = parseFloat(document.getElementById('c').value);
+      const a = eval(document.getElementById('a').value);
+      const b = eval(document.getElementById('b').value);
+      const c = eval(document.getElementById('c').value);
       
       if (a === 0) {
         alert("Il coefficiente 'a' non può essere 0 in una parabola.");
@@ -37,13 +37,29 @@ document.addEventListener('DOMContentLoaded', function() {
         x: xValues,
         y: yValues,
         mode: 'lines',
-        name: 'Parabola'
+        name: 'Parabola',
+        line: { color: '#3b82f6', width: 2 }
       }];
       
       const layout = {
         title: 'Grafico della Parabola',
-        xaxis: { title: 'x' },
-        yaxis: { title: 'y' }
+        paper_bgcolor: '#111827',
+        plot_bgcolor: '#1f2937',
+        font: {
+          color: '#e5e7eb'
+        },
+        xaxis: { 
+          title: 'x',
+          gridcolor: '#374151',
+          zerolinecolor: '#4b5563',
+          tickfont: { color: '#e5e7eb' }
+        },
+        yaxis: { 
+          title: 'y',
+          gridcolor: '#374151',
+          zerolinecolor: '#4b5563',
+          tickfont: { color: '#e5e7eb' }
+        }
       };
       
       Plotly.newPlot('plot', data, layout);
