@@ -49,7 +49,7 @@ $(document).ready(function() {
         xaxis: { 
           title: 'x',
           gridcolor: '#374151',
-          zerolinecolor: '#4b5563',
+          zerolinecolor: '#ffffff',
           tickfont: { color: '#e5e7eb' },
           scaleanchor: 'y',
           scaleratio: 1,
@@ -59,7 +59,7 @@ $(document).ready(function() {
         yaxis: { 
           title: 'y',
           gridcolor: '#374151',
-          zerolinecolor: '#4b5563',
+          zerolinecolor: '#ffffff',
           tickfont: { color: '#e5e7eb' },
           scaleanchor: 'x',
           scaleratio: 1,
@@ -174,13 +174,15 @@ $(document).ready(function() {
       const lastPoints = convenientPoints.slice(-5);
       
       const $convDiv = $('<div>', { class: 'convenient-points' })
-        .append($('<strong>').text('Primi 5 punti:'))
+        .append($('<strong>').text('Punti Significativi (primi 5):'))
         .append('<br>')
         .append(firstPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - '))
         .append('<br>')
-        .append($('<strong>').text('Ultimi 5 punti:'))
+        .append($('<strong>').text('Punti Significativi (ultimi 5):'))
         .append('<br>')
-        .append(lastPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - '));
+        .append(lastPoints.map(pt => `(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`).join(' - '))
+        .append('<br><br>')
+        .append($('<small>').text('I punti significativi includono: vertice, intersezioni con gli assi, punti di simmetria e punti con coordinate intere.'));
       
       $('<tr>')
         .append($('<td>', { colspan: 2 }).append($convDiv))
