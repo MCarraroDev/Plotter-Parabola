@@ -12,12 +12,21 @@
 <body>
   <div class="container">
     <h1>Plotter di Parabola</h1>
-    <div class="mode-switch">
-      <label class="switch">
-        <input type="checkbox" id="mode-toggle">
-        <span class="slider round"></span>
-      </label>
-      <span class="mode-label">Modalità Slider</span>
+    <div class="switches">
+      <div class="mode-switch">
+        <label class="switch">
+          <input type="checkbox" id="mode-toggle">
+          <span class="slider round"></span>
+        </label>
+        <span class="mode-label">Modalità Slider</span>
+      </div>
+      <div class="mode-switch">
+        <label class="switch">
+          <input type="checkbox" id="allow-zero-a">
+          <span class="slider round"></span>
+        </label>
+        <span class="mode-label">Permetti a=0 (retta)</span>
+      </div>
     </div>
     <form id="parabola-form">
       <div class="input-group">

@@ -192,11 +192,94 @@ $(document).ready(function() {
         const b = parseFloat($('#b').val());
         const c = parseFloat($('#c').val());
         
-        if (a === 0) {
-            alert("Il coefficiente 'a' non può essere 0 in una parabola.");
+        if (a === 0 && !$('#allow-zero-a').prop('checked')) {
+            alert("Il coefficiente 'a' non può essere 0 in una parabola.\nAttiva 'Permetti a=0' per visualizzare una retta.");
             $('#a').val(0.1);
             $('#a-slider').val(0.1);
             $('#a-value').text('0.1');
+            return;
+        }
+
+        // Se a=0 e lo switch è attivo, mostra una retta
+        if (a === 0) {
+            const xValues = [-10, 10];
+            const yValues = xValues.map(x => b * x + c);
+            
+            const data = [{
+                x: xValues,
+                y: yValues,
+                mode: 'lines',
+                name: 'Retta',
+                line: { color: '#3b82f6', width: 2 }
+            }];
+            
+            const layout = {
+                title: 'Grafico della Retta',
+                paper_bgcolor: '#111827',
+                plot_bgcolor: '#1f2937',
+                font: { color: '#e5e7eb' },
+                xaxis: { 
+                    title: 'x',
+                    gridcolor: '#374151',
+                    zerolinecolor: '#ffffff',
+                    tickfont: { color: '#e5e7eb' },
+                    scaleanchor: 'y',
+                    scaleratio: 1,
+                    fixedrange: false
+                },
+                yaxis: { 
+                    title: 'y',
+                    gridcolor: '#374151',
+                    zerolinecolor: '#ffffff',
+                    tickfont: { color: '#e5e7eb' },
+                    scaleanchor: 'x',
+                    scaleratio: 1,
+                    constrain: 'domain',
+                    fixedrange: false
+                }
+            };
+            
+            Plotly.newPlot('plot', data, layout);
+
+            // Aggiorna la tabella delle informazioni per la retta
+            const $tableBody = $('#info-table tbody');
+            $tableBody.empty();
+
+            function addRow(name, value) {
+                $('<tr>')
+                    .append($('<td>').text(name))
+                    .append($('<td>').text(value))
+                    .appendTo($tableBody);
+            }
+
+            addRow('Punto', 'Tipo');
+            addRow('', 'Retta');
+            addRow('Punto', 'Equazione');
+            addRow('', `y = ${b}x + ${c}`);
+            addRow('Punto', 'Pendenza');
+            addRow('', b.toFixed(2));
+            
+            // Intersezioni
+            addRow('Punto', 'Intersezione asse y');
+            addRow('', `(0, ${c.toFixed(2)})`);
+            
+            addRow('Punto', 'Intersezione asse x');
+            if (b !== 0) {
+                const xIntercept = -c / b;
+                addRow('', `(${xIntercept.toFixed(2)}, 0)`);
+            } else {
+                addRow('', 'Retta parallela all\'asse x');
+            }
+
+            // Punti significativi
+            addRow('Punto', 'Punti significativi');
+            const points = [];
+            for(let x = -2; x <= 2; x++) {
+                const y = b * x + c;
+                points.push({ x, y });
+            }
+            addRow('', points.map(pt => `(${pt.x.toFixed(1)}, ${pt.y.toFixed(1)})`).join('\n'));
+            
             return;
         }
 
