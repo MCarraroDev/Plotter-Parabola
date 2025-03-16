@@ -83,9 +83,26 @@ body {
 
   .input-group {
     display: grid;
-    grid-template-columns: 150px 100px 1fr auto;
+    grid-template-columns: 150px 100px minmax(200px, 1fr) auto;
     gap: 10px;
     align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .input-group {
+      grid-template-columns: 150px 100px;
+      grid-template-rows: auto auto;
+    }
+    
+    .slider-input {
+      grid-column: 1 / -1;
+      margin-top: 5px;
+    }
+    
+    .slider-value {
+      grid-column: -1;
+      grid-row: 1;
+    }
   }
 
   .text-input {
