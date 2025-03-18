@@ -4,7 +4,7 @@
 
 ### [🔗 Prova l'app online](https://mcarrarodev.github.io/Plotter-Parabola/)
 
-[![Version](https://img.shields.io/badge/Versione-3.1.0-blue.svg)](https://github.com/MCarraroDev/Plotter-Parabola)
+[![Version](https://img.shields.io/badge/Versione-3.1.1-blue.svg)](https://github.com/MCarraroDev/Plotter-Parabola)
 [![License](https://img.shields.io/badge/Licenza-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Made with](https://img.shields.io/badge/Fatto%20con-JavaScript-yellow.svg)](https://www.javascript.com/)
 [![Framework](https://img.shields.io/badge/Framework/Libreria-Plotly.js-lightblue.svg)](https://plotly.com/javascript/)
